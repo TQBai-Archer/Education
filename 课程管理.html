@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>课程管理 - 校外活动平台</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+    .iframe-header {
+      background: #2b68c6;
+      color: white;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .iframe-header .logo img {
+      height: 40px;
+    }
+    .iframe-header .menu {
+      flex-grow: 1;
+      margin-left: 40px;
+    }
+    .iframe-header .menu ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      padding: 0;
+      margin: 0;
+    }
+    .iframe-header .menu ul li {
+      color: white;
+      cursor: pointer;
+    }
+    .iframe-top-right {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+    .dropdown > span {
+      user-select: none;
+    }
+    .dropdown > .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      min-width: 140px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+    }
+    .dropdown > .dropdown-menu em {
+      display: block;
+      padding: 8px 15px;
+      border-bottom: 1px solid #eee;
+      font-style: normal;
+      cursor: pointer;
+    }
+    .dropdown > .dropdown-menu em:hover {
+      background: #2b68c6;
+      color: white;
+    }
+    .dropdown.open > .dropdown-menu {
+      display: block;
+    }
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      background-size: 24px 24px;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+    .button-row button {
+      flex: 1 1 calc(25% - 20px);
+      min-width: 200px;
+      padding: 16px;
+      font-size: 16px;
+      background-color: #2b68c6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button-row button:hover {
+      background-color: #1f4fa0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e9f1fa;
+    }
+    tr:hover {
+      background-color: #f9fbff;
+    }
+
+    /* New delete button style */
+    .delete-btn {
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Main -->
+<div class="container">
+  <h2>课程管理</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>课程名称</th>
+        <th>简介</th>
+        <th>教师</th>
+        <th>类别</th>
+        <th>开始日期</th>
+        <th>时长（小时）</th>
+        <th>操作</th> <!-- New column for delete button -->
+      </tr>
+    </thead>
+    <tbody id="courseTableBody">
+      <!-- Content will be populated from localStorage -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Close iframe content
+  document.getElementById('closeIframeBtn').addEventListener('click', () => {
+    window.parent.document.getElementById('iframeContainer').style.display = 'none';
+    window.parent.document.querySelector('.main-content-wrapper').style.display = 'block';
+  });
+
+  // Load courses from localStorage
+  let courses = JSON.parse(localStorage.getItem('courses') || '[]');
+  const tbody = document.getElementById('courseTableBody');
+
+  function renderCourses() {
+    tbody.innerHTML = ''; // Clear existing rows
+    courses.forEach((course, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${course.name}</td>
+        <td>${course.description}</td>
+        <td>${course.teacher}</td>
+        <td>${course.category}</td>
+        <td>${course.startDate}</td>
+        <td>${course.duration}</td>
+        <td><button class="delete-btn" data-index="${index}">删除</button></td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    // Attach event listeners to all delete buttons
+    tbody.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = e.target.getAttribute('data-index');
+        if (idx !== null) {
+          courses.splice(idx, 1); // Remove course from array
+          localStorage.setItem('courses', JSON.stringify(courses)); // Save updated array
+          renderCourses(); // Re-render table
+        }
+      });
+    });
+  }
+
+  renderCourses();
+
+  // Listen for localStorage changes
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'courses') {
+      courses = JSON.parse(event.newValue || '[]');
+      renderCourses();
+    }
+  });
+</script>
+</body>
+</html>

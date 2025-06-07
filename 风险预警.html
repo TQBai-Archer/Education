@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>风险预警 - 校外活动平台</title>
+  <style>
+    body, html {
+        margin: 0; padding: 0;
+        font-family: "Microsoft YaHei", sans-serif;
+        background: #f4f6f9;
+      }
+      .header {
+        background: #2b68c6;
+        color: white;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+      .logo img {
+        height: 40px;
+      }
+      .header .menu {
+        flex-grow: 1;
+        margin-left: 40px;
+      }
+      .header .menu ul {
+        list-style: none;
+        margin: 0; padding: 0;
+        display: flex;
+        gap: 30px;
+      }
+      .header .menu ul li {
+        cursor: pointer;
+      }
+      .header .top-right {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        position: relative;
+      }
+      .dropdown {
+        position: relative;
+        cursor: pointer;
+      }
+      .dropdown > span {
+        user-select: none;
+      }
+      .dropdown > .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        color: #333;
+        border: 1px solid #ccc;
+        min-width: 140px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        display: none;
+        z-index: 1000;
+      }
+      .dropdown > .dropdown-menu em {
+        display: block;
+        padding: 8px 15px;
+        border-bottom: 1px solid #eee;
+        font-style: normal;
+        cursor: pointer;
+      }
+      .dropdown > .dropdown-menu em:hover {
+        background: #2b68c6;
+        color: white;
+      }
+      .dropdown.open > .dropdown-menu {
+        display: block;
+      }
+      .customer-btn {
+        background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+        padding-left: 40px;
+        height: 36px;
+        line-height: 36px;
+        background-size: 24px 24px;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    .container {
+      padding: 30px;
+    }
+    .tabs {
+      margin-bottom: 20px;
+    }
+    .tabs button {
+      padding: 8px 16px;
+      margin-right: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      background: #e0e0e0;
+    }
+    .tabs button.active {
+      background: #2b68c6;
+      color: white;
+    }
+    table {
+      width: 100%;
+      background: white;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    .risk-icon.high { color: red; }
+    .risk-icon.medium { color: orange; }
+    .risk-icon.low { color: green; }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      min-width: 300px;
+    }
+    .language-toggle {
+      cursor: pointer;
+      padding: 5px 10px;
+      background: white;
+      color: #2b68c6;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <a href="dashboard.html"><img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="Logo"></a>
+  </div>
+  <div class="menu">
+    <ul>
+      <li><a href="dashboard.html" style="color: white; text-decoration: none;">首页</a></li>
+      <li><a href="通知管理.html" style="color: white; text-decoration: none;">通知管理</a></li>
+      <li><a href="经营管理.html" style="color: white; text-decoration: none;">经营管理</a></li>
+      <li><a href="执法监控.html" style="color: white; text-decoration: none;">执法监控</a></li>
+      <li style="font-weight: bold;">风险预警</li>
+
+    </ul>
+  </div>
+  <div class="top-right">
+    <div class="dropdown" id="helpDropdown">
+      <span>帮助 ▼</span>
+      <div class="dropdown-menu">
+        <em onclick="location.href='faq.html'">常见问题</em>
+        <em onclick="alert('操作教程暂未上线')">操作教程</em>
+        <em onclick="location.href='意见反馈.html'">意见反馈</em>
+      </div>
+    </div>
+    <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+    <div class="dropdown" id="companyDropdown">
+      <span>如东昂蕾教育培训有... ▼</span>
+      <div class="dropdown-menu">
+        <em>信息管理</em>
+        <em id="logoutBtn">退出</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h2 id="pageTitle">风险预警</h2>
+  <div class="tabs">
+    <button onclick="filterRisk('all')" class="active">全部</button>
+    <button onclick="filterRisk('high')">高</button>
+    <button onclick="filterRisk('medium')">中</button>
+    <button onclick="filterRisk('low')">低</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>预警类型</th>
+        <th>描述</th>
+        <th>等级</th>
+        <th>时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="riskTableBody"></tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="detailModal">
+  <div class="modal-content">
+    <h3>预警详情</h3>
+    <p id="modalText">...</p>
+    <button onclick="closeModal()">关闭</button>
+  </div>
+</div>
+
+<script>
+  const risks = [
+    { type: "网络异常", desc: "服务器响应超时", level: "high", time: "2025-05-30 09:00" },
+    { type: "数据延迟", desc: "视频数据丢帧", level: "medium", time: "2025-05-30 08:45" },
+    { type: "设备重启", desc: "摄像头自动重启", level: "low", time: "2025-05-29 14:22" }
+  ];
+
+  let currentLang = "zh";
+
+  function renderTable(level = "all") {
+    const tbody = document.getElementById("riskTableBody");
+    tbody.innerHTML = "";
+    risks.filter(r => level === "all" || r.level === level)
+      .forEach(risk => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${risk.type}</td>
+          <td>${risk.desc}</td>
+          <td class="risk-icon ${risk.level}">${risk.level.toUpperCase()}</td>
+          <td>${risk.time}</td>
+          <td><button onclick="openModal('${risk.type} - ${risk.desc}')">详情</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+  }
+
+  function filterRisk(level) {
+    document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    renderTable(level);
+  }
+
+  function openModal(content) {
+    document.getElementById("modalText").innerText = content;
+    document.getElementById("detailModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("detailModal").style.display = "none";
+  }
+
+  function toggleLanguage() {
+    currentLang = currentLang === "zh" ? "en" : "zh";
+    document.getElementById("pageTitle").innerText = currentLang === "zh" ? "风险预警" : "Risk Warning";
+    document.querySelector(".language-toggle").innerText = currentLang === "zh" ? "English" : "中文";
+  }
+
+  document.querySelectorAll(".dropdown").forEach(d => {
+    d.addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.querySelectorAll(".dropdown").forEach(dd => {
+        if (dd !== d) dd.classList.remove("open");
+      });
+      d.classList.toggle("open");
+    });
+  });
+  window.addEventListener("click", () => {
+    document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("open"));
+  });
+
+  // Initial load
+  renderTable();
+</script>
+
+</body>
+</html>

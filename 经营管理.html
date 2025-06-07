@@ -1,0 +1,1384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>经营管理</title>
+  <style>
+    /*基础样式*/
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+    .header {
+      background: #2b68c6;
+      color: white;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    .header .logo img {
+      height: 40px;
+    }
+    .header .menu {
+      flex-grow: 1;
+      margin-left: 40px;
+    }
+    .header .menu ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      padding: 0;
+      margin: 0;
+    }
+    .header .menu ul li {
+      color: white;
+      cursor: pointer;
+    }
+    .top-right {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+    .dropdown > span {
+      user-select: none;
+    }
+    .dropdown > .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      min-width: 140px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+    }
+    .dropdown > .dropdown-menu em {
+      display: block;
+      padding: 8px 15px;
+      border-bottom: 1px solid #eee;
+      font-style: normal;
+      cursor: pointer;
+    }
+    .dropdown > .dropdown-menu em:hover {
+      background: #2b68c6;
+      color: white;
+    }
+    .dropdown.open > .dropdown-menu {
+      display: block;
+    }
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      background-size: 24px 24px;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* 容器 */
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+    .button-row button {
+      flex: 1 1 calc(25% - 20px);
+      min-width: 200px;
+      padding: 16px;
+      font-size: 16px;
+      background-color: #2b68c6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button-row button:hover {
+      background-color: #1f4fa0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e9f1fa;
+    }
+    tr:hover {
+      background-color: #f9fbff;
+    }
+
+    /* New delete button style */
+    .delete-btn {
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    /* Side navigation styles */
+    .side-nav {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      background-color: #2b68c6;
+      width: 200px;
+      height: calc(100vh - 60px);
+      color: white;
+      padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .side-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .side-nav .main-nav-item {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 10px;
+    }
+    .side-nav .main-nav-item a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      display: block;
+      padding: 5px 0;
+    }
+    .side-nav .sub-nav {
+      display: none;
+      padding-left: 20px;
+      padding-top: 10px;
+    }
+    .side-nav .sub-nav-item {
+      padding: 8px 0;
+    }
+    .side-nav .sub-nav-item a {
+      color: #e0e0e0;
+      font-size: 14px;
+      text-decoration: none;
+      display: block;
+    }
+    .side-nav .sub-nav-item a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+    .side-nav .active .sub-nav {
+      display: block;
+    }
+
+    /* Content Area */
+    .content-area {
+      margin-left: 200px;
+      margin-top: 60px;
+    }
+
+    .main-content {
+      margin: 30px;
+    }
+
+    .form-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-group textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .edit-btn, .save-btn, .cancel-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .edit-btn {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .edit-btn:hover {
+      background-color: #e0e0e0;
+    }
+
+    .save-btn {
+      background-color: #2b68c6;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background-color: #1f4fa0;
+    }
+
+    .cancel-btn {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .cancel-btn:hover {
+      background-color: #d0d0d0;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 8px;
+      width: 70%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .close-modal {
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-modal:hover {
+      color: #333;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .search-bar button {
+      margin-left: 10px;
+      padding: 10px 20px;
+      background-color: #2b68c6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .search-bar button:hover {
+      background-color: #1f4fa0;
+    }
+    .refund-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .refund-actions button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .agree-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .reject-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+    .edit-mode {
+      background-color: #e9f1fa;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 500px;
+      margin-top: 20px;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+
+    .refund-search {
+      margin-bottom: 20px;
+      display: flex;
+    }
+    .refund-search input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .refund-search button {
+      padding: 10px 20px;
+      background-color: #2b68c6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+    .refund-search button:hover {
+      background-color: #1f4fa0;
+    }
+    .refund-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .refund-actions button {
+      padding: 6px 12px;
+      background-color: #f0f0f0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .refund-actions button:hover {
+      background-color: #e0e0e0;
+    }
+
+
+    .tab-content {
+      display: none;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: calc(100% - 200px);
+      margin-left: 200px;
+    }
+
+
+    #myOrdersTab, #refundOrdersTab, #transactionRecordsTab {
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: calc(100% - 200px);
+      margin-left: 200px;
+    }
+    #myOrdersTab h2, #refundOrdersTab h2, #transactionRecordsTab h2 {
+      margin-top: 0;
+    }
+
+    /* 资金流水 */
+    .transaction-search {
+      margin-bottom: 20px;
+      display: flex;
+    }
+    .transaction-search input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .transaction-search button {
+      padding: 10px 20px;
+      background-color: #2b68c6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+    .transaction-search button:hover {
+      background-color: #1f4fa0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <a href="#"><img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="全国校外培训统一监管平台"></a>
+  </div>
+  <div class="menu">
+    <ul>
+      <li onclick="window.location.href='dashboard.html'">首页</li>
+      <li onclick="window.location.href='通知管理.html'">通知管理</li>
+      <li onclick="window.location.href='经营管理.html'">经营管理</li>
+      <li onclick="window.location.href='执法监控.html'">执法监控</li>
+      <li onclick="window.location.href='风险预警.html'">风险预警</li>
+    </ul>
+  </div>
+  <div class="top-right">
+    <div class="dropdown" id="helpDropdown">
+      <span>帮助 ▼</span>
+      <div class="dropdown-menu">
+        <em onclick="location.href='faq.html'">常见问题</em>
+        <em onclick="location.href='操作教程.html'">操作教程</em>
+        <em onclick="location.href='feedback.html'">意见反馈</em>
+      </div>
+    </div>
+    <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+    <div class="dropdown" id="companyDropdown">
+      <span>如东昂蕾教育培训有... ▼</span>
+      <div class="dropdown-menu">
+        <em>信息管理</em>
+        <em id="logoutBtn">退出</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 侧面导航栏 -->
+<div class="side-nav">
+  <ul>
+    <li class="main-nav-item">
+      <a href="#">门店管理</a>
+      <ul class="sub-nav">
+        <li class="sub-nav-item"><a href="#" id="storeInfoLink">门店信息</a></li>
+        <li class="sub-nav-item"><a href="javascript:void(0)" id="courseInfoLink">课程信息</a></li>
+        <li class="sub-nav-item"><a href="javascript:void(0)" id="studentInfoLink">学生管理</a></li>
+      </ul>
+    </li>
+    <li class="main-nav-item">
+      <a href="#">交易管理</a>
+      <ul class="sub-nav">
+        <li class="sub-nav-item"><a href="#" id="myOrdersLink">我的订单</a></li>
+        <li class="sub-nav-item"><a href="javascript:void(0)" id="refundOrdersLink">交易退款</a></li>
+        <li class="sub-nav-item"><a href="javascript:void(0)" id="transactionRecordsLink">资金流水</a></li>
+        <li class="sub-nav-item"><a href="#" id="serviceOrdersLink">服务订单</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- Main Content Area -->
+<div class="content-area">
+  <div class="main-content-wrapper" id="mainContentWrapper">
+    <div class="main-content">
+      <div class="container">
+        <div class="button-row">
+          <button>创建新门店</button>
+          <button>添加课程</button>
+          <button>添加学生</button>
+          <button>查看订单</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>门店名称</th>
+              <th>课程数量</th>
+              <th>学生数量</th>
+              <th>订单数量</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>如东昂蕾教育培训有限公司</td>
+              <td>15</td>
+              <td>120</td>
+              <td>80</td>
+              <td><button class="delete-btn">删除</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 服务订单 Tab -->
+<div id="serviceOrdersTab" class="tab-content">
+  <h2>服务订单</h2>
+  <div class="search-bar">
+    <input type="text" id="serviceOrdersSearch" placeholder="搜索服务订单记录...">
+    <button id="serviceOrdersSearchBtn">搜索</button>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>订单号</th>
+          <th>办学场地名称</th>
+          <th>班课名称</th>
+          <th>实付金额</th>
+          <th>手续费</th>
+          <th>确消课时</th>
+          <th>学生姓名</th>
+          <th>扣款次数/总次数</th>
+          <th>扣款时间</th>
+        </tr>
+      </thead>
+      <tbody id="serviceOrdersTableBody">
+        <!-- 服务订单记录将动态显示在这里 -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 存储 -->
+<div id="storeInfoModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeModal">&times;</span>
+    <h2>门店信息</h2>
+    <form id="storeForm">
+      <div class="form-group">
+        <label for="storeName">门店名称</label>
+        <input type="text" id="storeName" name="storeName" value="如东昂蕾教育培训有限公司">
+      </div>
+
+      <div class="form-group">
+        <label for="storeIntro">门店介绍</label>
+        <textarea id="storeIntro" name="storeIntro">如东昂蕾教育培训有限公司成立于2015年，专注于为中小学生提供高质量的课外辅导服务。我们拥有一支经验丰富的教师团队，致力于帮助学生提高学习成绩，培养学习兴趣和良好的学习习惯。我们开设的课程包括数学、英语、语文等多个学科，采用小班教学模式，确保每位学生都能得到充分的关注和指导。</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="storeAddress">详细位置</label>
+        <input type="text" id="storeAddress" name="storeAddress" value="江苏省南通市如东县掘港镇人民南路123号">
+      </div>
+
+      <div class="form-group">
+        <label for="storePhone">联系电话</label>
+        <input type="text" id="storePhone" name="storePhone" value="0513-88889999">
+      </div>
+
+      <div class="form-group">
+        <label for="storeEmail">电子邮箱</label>
+        <input type="text" id="storeEmail" name="storeEmail" value="info@ronglearning.com">
+      </div>
+
+      <div class="form-group">
+        <label for="storeManager">营业时间</label>
+        <div style="display: flex; gap: 20px;">
+          <div style="flex: 1;">
+            <label for="mondayFri" style="display: block; margin-bottom: 8px; font-weight: bold;">周一至周五</label>
+            <input type="text" id="mondayFri" name="mondayFri" value="14:00 - 20:00">
+          </div>
+          <div style="flex: 1;">
+            <label for="saturdaySun" style="display: block; margin-bottom: 8px; font-weight: bold;">周六至周日</label>
+            <input type="text" id="saturdaySun" name="saturdaySun" value="09:00 - 18:00">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="storeManager">门店负责人</label>
+        <input type="text" id="storeManager" name="storeManager" value="张伟">
+      </div>
+
+      <div class="form-buttons">
+        <button type="button" class="save-btn" id="saveBtn">保存</button>
+        <button type="button" class="cancel-btn" id="cancelBtn">取消</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Container for the iframe -->
+<div id="iframeContainer">
+  <iframe id="courseManagementFrame" style="width: 100%; height: calc(100vh - 120px); border: none;"></iframe>
+</div>
+
+<!-- 学生管理 -->
+<div id="studentInfoModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeStudentModal">&times;</span>
+    <h2>学生管理</h2>
+    <div class="student-search">
+      <input type="text" id="studentSearchInput" placeholder="搜索学生信息...">
+      <button id="searchBtn">搜索</button>
+    </div>
+    <table id="studentTable">
+      <thead>
+        <tr>
+          <th>所属门店</th>
+          <th>学生姓名</th>
+          <th>课程名称</th>
+          <th>班级名称</th>
+          <th>入班日期</th>
+          <th>课包名称</th>
+          <th>订单编号</th>
+          <th>总课时</th>
+          <th>已消课时</th>
+          <th>未消金额（元）</th>
+          <th>总金额（元）</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>如东昂蕾教育培训有限公司</td>
+          <td>张三</td>
+          <td>数学培优班</td>
+          <td>高级班</td>
+          <td>2025-05-01</td>
+          <td>数学培优课包</td>
+          <td>ORD202505001</td>
+          <td>20</td>
+          <td>10</td>
+          <td>1000</td>
+          <td>2000</td>
+          <td>
+            <div class="student-actions">
+              <button class="edit-student" data-index="0">编辑</button>
+              <button class="save-student" data-index="0" style="display: none;">保存</button>
+              <button class="cancel-edit" data-index="0" style="display: none;">取消</button>
+              <button>分班/移除班级</button>
+              <button>去消课</button>
+              <button>消课记录</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>如东昂蕾教育培训有限公司</td>
+          <td>李四</td>
+          <td>英语精英班</td>
+          <td>中级班</td>
+          <td>2025-06-15</td>
+          <td>英语精英课包</td>
+          <td>ORD202506001</td>
+          <td>15</td>
+          <td>5</td>
+          <td>800</td>
+          <td>1500</td>
+          <td>
+            <div class="student-actions">
+              <button class="edit-student" data-index="1">编辑</button>
+              <button class="save-student" data-index="1" style="display: none;">保存</button>
+              <button class="cancel-edit" data-index="1" style="display: none;">取消</button>
+              <button>分班/移除班级</button>
+              <button>去消课</button>
+              <button>消课记录</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- My Orders Tab -->
+<div id="myOrdersTab" class="tab-content">
+  <h2>我的订单</h2>
+  <div class="search-bar">
+    <input type="text" id="myOrdersSearch" placeholder="搜索订单...">
+    <div class="date-range">
+      <input type="date" class="date-input" id="myOrdersStartDate">
+      <input type="date" class="date-input" id="myOrdersEndDate">
+      <button id="myOrdersSearchBtn">搜索</button>
+    </div>
+    <button class="export-btn" id="myOrdersExportBtn">导出数据</button>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>订单时间</th>
+          <th>支付方式</th>
+          <th>场地名称</th>
+          <th>订单编号</th>
+          <th>购买渠道</th>
+          <th>手机号</th>
+          <th>支付交易号</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-06-15 14:30</td>
+          <td>微信支付</td>
+          <td>如东昂蕾教育培训有限公司</td>
+          <td>ORD202506015</td>
+          <td>官网</td>
+          <td>13800138000</td>
+          <td>WX20250615874523</td>
+          <td>
+            <button class="action-btn">编辑</button>
+            <button class="action-btn">删除</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2025-06-10 09:15</td>
+          <td>支付宝</td>
+          <td>如东昂蕾教育培训有限公司</td>
+          <td>ORD202506010</td>
+          <td>APP</td>
+          <td>13900139000</td>
+          <td>AL20250610987412</td>
+          <td>
+            <button class="action-btn">编辑</button>
+            <button class="action-btn">删除</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 退款管理-->
+<div id="refundOrdersTab" class="tab-content">
+  <h2>交易退款</h2>
+  <div class="refund-search">
+    <input type="text" id="refundSearch" placeholder="搜索退款记录...">
+    <button id="refundSearchBtn">搜索</button>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>退款申请时间</th>
+          <th>班课名称</th>
+          <th>学生姓名</th>
+          <th>退款单号</th>
+          <th>退款类型</th>
+          <th>退款渠道</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-06-20 10:45</td>
+          <td>数学培优班</td>
+          <td>张三</td>
+          <td>REF20250620001</td>
+          <td>课程退款</td>
+          <td>微信支付</td>
+          <td>
+            <div class="refund-actions">
+              <button class="agree-btn">通过</button>
+              <button class="reject-btn">不通过</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>2025-06-18 14:20</td>
+          <td>英语精英班</td>
+          <td>李四</td>
+          <td>REF20250618001</td>
+          <td>课程退款</td>
+          <td>支付宝</td>
+          <td>
+            <div class="refund-actions">
+              <button class="agree-btn">通过</button>
+              <button class="reject-btn">不通过</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>2025-06-15 09:30</td>
+          <td>语文提高班</td>
+          <td>王五</td>
+          <td>REF20250615001</td>
+          <td>部分退款</td>
+          <td>微信支付</td>
+          <td>
+            <div class="refund-actions">
+              <button class="agree-btn">通过</button>
+              <button class="reject-btn">不通过</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 资金流水 -->
+<div id="transactionRecordsTab" class="tab-content">
+  <h2>资金流水</h2>
+  <div class="transaction-search">
+    <input type="text" id="transactionSearch" placeholder="搜索资金流水记录...">
+    <button id="transactionSearchBtn">搜索</button>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>结算单号</th>
+          <th>机构名称</th>
+          <th>开户行</th>
+          <th>银行账号</th>
+          <th>金额（元）</th>
+          <th>结算状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SETT20250620001</td>
+          <td>如东昂蕾教育培训有限公司</td>
+          <td>中国工商银行如东支行</td>
+          <td>1234567890123456789</td>
+          <td>5000</td>
+          <td>已结算</td>
+          <td>
+            <button class="action-btn">详情</button>
+          </td>
+        </tr>
+        <tr>
+          <td>SETT20250615001</td>
+          <td>如东昂蕾教育培训有限公司</td>
+          <td>中国工商银行如东支行</td>
+          <td>1234567890123456789</td>
+          <td>3000</td>
+          <td>已结算</td>
+          <td>
+            <button class="action-btn">详情</button>
+          </td>
+        </tr>
+        <tr>
+          <td>SETT20250610001</td>
+          <td>如东昂蕾教育培训有限公司</td>
+          <td>中国工商银行如东支行</td>
+          <td>1234567890123456789</td>
+          <td>8000</td>
+          <td>处理中</td>
+          <td>
+            <button class="action-btn">详情</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 代买管理 -->
+<div id="buyManagementTab" class="tab-content">
+  <h2>代买管理</h2>
+  <div class="search-bar">
+    <input type="text" id="buyManagementSearch" placeholder="搜索代买管理记录...">
+    <button id="buyManagementSearchBtn">搜索</button>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>学生姓名</th>
+          <th>家长手机号</th>
+          <th>班级名称</th>
+          <th>课包名称</th>
+          <th>课程名称</th>
+          <th>场地名称</th>
+          <th>创建日期</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="buyManagementTableBody">
+        <!-- 代买管理记录将动态显示在这里 -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mainNavItems = document.querySelectorAll('.main-nav-item');
+    const storeInfoLink = document.getElementById('storeInfoLink');
+    const courseInfoLink = document.getElementById('courseInfoLink');
+    const studentInfoLink = document.getElementById('studentInfoLink');
+    const myOrdersLink = document.getElementById('myOrdersLink');
+    const refundOrdersLink = document.getElementById('refundOrdersLink');
+    const transactionRecordsLink = document.getElementById('transactionRecordsLink');
+    const storeInfoModal = document.getElementById('storeInfoModal');
+    const closeModal = document.getElementById('closeModal');
+    const iframeContainer = document.getElementById('iframeContainer');
+    const mainContentWrapper = document.getElementById('mainContentWrapper');
+    const courseManagementFrame = document.getElementById('courseManagementFrame');
+    const studentInfoModal = document.getElementById('studentInfoModal');
+    const closeStudentModal = document.getElementById('closeStudentModal');
+    const myOrdersTab = document.getElementById('myOrdersTab');
+    const refundOrdersTab = document.getElementById('refundOrdersTab');
+    const transactionRecordsTab = document.getElementById('transactionRecordsTab');
+
+    // Handle side navigation
+    mainNavItems.forEach(item => {
+      const mainLink = item.querySelector('a');
+      const subNav = item.querySelector('.sub-nav');
+      mainLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.sub-nav').forEach(nav => {
+          if (nav !== subNav) {
+            nav.style.display = 'none';
+          }
+        });
+        subNav.style.display = subNav.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+
+    // 门店信息
+    storeInfoLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      storeInfoModal.style.display = 'block';
+    });
+
+    // 课程信息
+    courseInfoLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      mainContentWrapper.style.display = 'none'; // 隐藏主页面内容
+      iframeContainer.style.display = 'block';
+      courseManagementFrame.src = '课程管理.html';
+    });
+
+    // 学生管理
+    studentInfoLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      studentInfoModal.style.display = 'block';
+    });
+
+    // 我的订单
+    myOrdersLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      // 隐藏主页面内容和iframe容器
+      mainContentWrapper.style.display = 'none';
+      iframeContainer.style.display = 'none';
+      // 隐藏其他可能显示的tab
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      // 显示我的订单tab
+      myOrdersTab.style.display = 'block';
+    });
+
+    // Click on "交易退款" to show refund orders tab
+    refundOrdersLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      // 隐藏主页面内容和容器
+      mainContentWrapper.style.display = 'none';
+      iframeContainer.style.display = 'none';
+      // 隐藏其他可能显示模块
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      // 显示交易退款tab
+      refundOrdersTab.style.display = 'block';
+    });
+
+    //资金流水
+    transactionRecordsLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      // 隐藏主页面内容和容器
+      mainContentWrapper.style.display = 'none';
+      iframeContainer.style.display = 'none';
+      // 隐藏其他可能显示模块
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      // 资金流水
+      transactionRecordsTab.style.display = 'block';
+    });
+
+    // 关闭
+    closeModal.addEventListener('click', function() {
+      storeInfoModal.style.display = 'none';
+      // 重新显示主页面内容
+      mainContentWrapper.style.display = 'block';
+      iframeContainer.style.display = 'none';
+    });
+
+    closeStudentModal.addEventListener('click', function() {
+      studentInfoModal.style.display = 'none';
+      // 重新显示主页面内容
+      mainContentWrapper.style.display = 'block';
+      iframeContainer.style.display = 'none';
+    });
+
+    // Close modals when clicking outside the modal content
+    window.addEventListener('click', function(event) {
+      if (event.target === storeInfoModal) {
+        storeInfoModal.style.display = 'none';
+        // 重新显示主页面内容
+        mainContentWrapper.style.display = 'block';
+        iframeContainer.style.display = 'none';
+      }
+      if (event.target === studentInfoModal) {
+        studentInfoModal.style.display = 'none';
+        // 重新显示主页面内容
+        mainContentWrapper.style.display = 'block';
+        iframeContainer.style.display = 'none';
+      }
+    });
+
+    // Close iframe content
+    courseManagementFrame.onload = function() {
+      const closeBtn = courseManagementFrame.contentDocument.getElementById('closeIframeBtn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+          iframeContainer.style.display = 'none';
+          mainContentWrapper.style.display = 'block';
+        });
+      }
+    };
+
+    // 搜索框-退款
+    document.getElementById('refundSearchBtn').addEventListener('click', function() {
+      const searchTerm = document.getElementById('refundSearch').value.toLowerCase();
+      const rows = document.querySelectorAll('#refundOrdersTab table tbody tr');
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let matchFound = false;
+
+        cells.forEach(cell => {
+          if (cell.textContent.toLowerCase().includes(searchTerm)) {
+            matchFound = true;
+          }
+        });
+
+        if (matchFound) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+
+    // 通过和不通过按钮点击事件
+    document.querySelectorAll('.agree-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const row = this.closest('tr');
+        alert(`退款单号: ${row.cells[3].textContent} - 审核通过`);
+      });
+    });
+
+    document.querySelectorAll('.reject-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const row = this.closest('tr');
+        alert(`退款单号: ${row.cells[3].textContent} - 审核不通过`);
+      });
+    });
+
+    //交易记录
+    document.getElementById('transactionSearchBtn').addEventListener('click', function() {
+      const searchTerm = document.getElementById('transactionSearch').value.toLowerCase();
+      const rows = document.querySelectorAll('#transactionRecordsTab table tbody tr');
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let matchFound = false;
+
+        cells.forEach(cell => {
+          if (cell.textContent.toLowerCase().includes(searchTerm)) {
+            matchFound = true;
+          }
+        });
+
+        if (matchFound) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+<script>
+  // 添加搜索和显示服务订单记录的功能
+  document.getElementById('serviceOrdersLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    // 隐藏主页面内容和iframe容器
+    mainContentWrapper.style.display = 'none';
+    iframeContainer.style.display = 'none';
+    // 隐藏其他可能显示的tab
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.style.display = 'none';
+    });
+    // 显示服务订单tab
+    document.getElementById('serviceOrdersTab').style.display = 'block';
+  });
+
+  // 搜索图片搜索框功能
+  document.getElementById('serviceOrdersSearchBtn').addEventListener('click', function() {
+    const searchTerm = document.getElementById('serviceOrdersSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('#serviceOrdersTableBody tr');
+
+    rows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      let matchFound = false;
+
+      cells.forEach(cell => {
+        if (cell.textContent.toLowerCase().includes(searchTerm)) {
+          matchFound = true;
+        }
+      });
+
+      if (matchFound) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+
+  // 动态显示服务订单记录
+  const serviceOrdersData = [
+    {
+      orderNumber: 'ORD20250605',
+      venueName: '如东昂蕾教育培训有限公司',
+      classCourseName: '数学培优班',
+      actualPaymentAmount: '2000',
+      handlingFee: '50',
+      confirmedCancellationHours: '5',
+      studentName: '张三',
+      deductionTimesTotalTimes: '3/5',
+      deductionTime: '2025-06-15'
+    },
+    {
+      orderNumber: 'ORD20250606',
+      venueName: '如东昂蕾教育培训有限公司',
+      classCourseName: '英语精英班',
+      actualPaymentAmount: '1500',
+      handlingFee: '30',
+      confirmedCancellationHours: '4',
+      studentName: '李四',
+      deductionTimesTotalTimes: '2/4',
+      deductionTime: '2025-06-18'
+    }
+  ];
+
+  function displayServiceOrdersData(data) {
+    const tableBody = document.getElementById('serviceOrdersTableBody');
+    tableBody.innerHTML = '';
+
+    data.forEach(order => {
+      const row = document.createElement('tr');
+
+      const orderNumberCell = document.createElement('td');
+      orderNumberCell.textContent = order.orderNumber;
+      row.appendChild(orderNumberCell);
+
+      const venueNameCell = document.createElement('td');
+      venueNameCell.textContent = order.venueName;
+      row.appendChild(venueNameCell);
+
+      const classCourseNameCell = document.createElement('td');
+      classCourseNameCell.textContent = order.classCourseName;
+      row.appendChild(classCourseNameCell);
+
+      const actualPaymentAmountCell = document.createElement('td');
+      actualPaymentAmountCell.textContent = order.actualPaymentAmount;
+      row.appendChild(actualPaymentAmountCell);
+
+      const handlingFeeCell = document.createElement('td');
+      handlingFeeCell.textContent = order.handlingFee;
+      row.appendChild(handlingFeeCell);
+
+      const confirmedCancellationHoursCell = document.createElement('td');
+      confirmedCancellationHoursCell.textContent = order.confirmedCancellationHours;
+      row.appendChild(confirmedCancellationHoursCell);
+
+      const studentNameCell = document.createElement('td');
+      studentNameCell.textContent = order.studentName;
+      row.appendChild(studentNameCell);
+
+      const deductionTimesTotalTimesCell = document.createElement('td');
+      deductionTimesTotalTimesCell.textContent = order.deductionTimesTotalTimes;
+      row.appendChild(deductionTimesTotalTimesCell);
+
+      const deductionTimeCell = document.createElement('td');
+      deductionTimeCell.textContent = order.deductionTime;
+      row.appendChild(deductionTimeCell);
+
+      tableBody.appendChild(row);
+    });
+  }
+
+  displayServiceOrdersData(serviceOrdersData); // 初始显示服务订单记录
+
+    // 搜索和显示代买管理记录的功能
+    document.getElementById('buyManagementLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      // 隐藏主页面内容和iframe容器
+      mainContentWrapper.style.display = 'none';
+      iframeContainer.style.display = 'none';
+      // 隐藏其他可能显示的按钮
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      // 显示代买管理
+      document.getElementById('buyManagementTab').style.display = 'block';
+    });
+
+    // 搜索按钮功能
+    document.getElementById('buyManagementSearchBtn').addEventListener('click', function() {
+      const searchTerm = document.getElementById('buyManagementSearch').value.toLowerCase();
+      const rows = document.querySelectorAll('#buyManagementTableBody tr');
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let matchFound = false;
+
+        cells.forEach(cell => {
+          if (cell.textContent.toLowerCase().includes(searchTerm)) {
+            matchFound = true;
+          }
+        });
+
+        if (matchFound) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+
+    // 示例：动态显示代买管理记录（实际使用时应从后端获取数据）
+    const buyManagementData = [
+      {
+        studentName: '张三',
+        parentPhone: '13800138000',
+        className: '数学培优班',
+        package: '数学培优课包',
+        courseName: '数学培优课程',
+        venueName: '如东昂蕾教育培训有限公司',
+        createDate: '2025-06-01'
+      },
+      {
+        studentName: '李四',
+        parentPhone: '13900139000',
+        className: '英语精英班',
+        package: '英语精英课包',
+        courseName: '英语精英课程',
+        venueName: '如东昂蕾教育培训有限公司',
+        createDate: '2025-06-10'
+      }
+    ];
+
+    function displayBuyManagementData(data) {
+      const tableBody = document.getElementById('buyManagementTableBody');
+      tableBody.innerHTML = ''; // 清空现有记录
+
+      data.forEach(record => {
+        const row = document.createElement('tr');
+
+        const studentNameCell = document.createElement('td');
+        studentNameCell.textContent = record.studentName;
+        row.appendChild(studentNameCell);
+
+        const parentPhoneCell = document.createElement('td');
+        parentPhoneCell.textContent = record.parentPhone;
+        row.appendChild(parentPhoneCell);
+
+        const classNameCell = document.createElement('td');
+        classNameCell.textContent = record.className;
+        row.appendChild(classNameCell);
+
+        const packageCell = document.createElement('td');
+        packageCell.textContent = record.package;
+        row.appendChild(packageCell);
+
+        const courseNameCell = document.createElement('td');
+        courseNameCell.textContent = record.courseName;
+        row.appendChild(courseNameCell);
+
+        const venueNameCell = document.createElement('td');
+        venueNameCell.textContent = record.venueName;
+        row.appendChild(venueNameCell);
+
+        const createDateCell = document.createElement('td');
+        createDateCell.textContent = record.createDate;
+        row.appendChild(createDateCell);
+
+        const actionCell = document.createElement('td');
+        actionCell.innerHTML = '<button class="edit-btn">编辑</button> <button class="delete-btn">删除</button>';
+        row.appendChild(actionCell);
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    displayBuyManagementData(buyManagementData); // 初始显示代买管理记录
+</script>
+</body>
+</html>

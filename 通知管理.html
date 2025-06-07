@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>通知管理 - 校外活动平台</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+    .header {
+      background: #2b68c6;
+      color: white;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .logo img {
+      height: 40px;
+    }
+    .header .menu {
+      flex-grow: 1;
+      margin-left: 40px;
+    }
+    .header .menu ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      padding: 0;
+      margin: 0;
+    }
+    .header .menu ul li {
+      color: white;
+      cursor: pointer;
+    }
+    .top-right {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+    .dropdown > span {
+      user-select: none;
+    }
+    .dropdown > .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      min-width: 140px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+    }
+    .dropdown > .dropdown-menu em {
+      display: block;
+      padding: 8px 15px;
+      border-bottom: 1px solid #eee;
+      font-style: normal;
+      cursor: pointer;
+    }
+    .dropdown > .dropdown-menu em:hover {
+      background: #2b68c6;
+      color: white;
+    }
+    .dropdown.open > .dropdown-menu {
+      display: block;
+    }
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      background-size: 24px 24px;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+    .button-row button {
+      flex: 1 1 calc(25% - 20px);
+      min-width: 200px;
+      padding: 16px;
+      font-size: 16px;
+      background-color: #2b68c6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button-row button:hover {
+      background-color: #1f4fa0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e9f1fa;
+    }
+    tr:hover {
+      background-color: #f9fbff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <a href="dashboard.html">
+      <img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="平台 Logo">
+    </a>
+  </div>
+  <div class="menu">
+    <ul>
+      <li onclick="location.href='dashboard.html'">首页</li>
+      <li style="font-weight: bold;">通知管理</li>
+      <li onclick="location.href='signup.html'">经营管理</li>
+      <li onclick="location.href='stats.html'">执法监控</li>
+      <li onclick="location.href='settings.html'">风险预警</li>
+    </ul>
+  </div>
+  <div class="top-right">
+    <div class="dropdown" id="helpDropdown">
+      <span>帮助 ▼</span>
+      <div class="dropdown-menu">
+        <em onclick="location.href='faq.html'">常见问题</em>
+        <em onclick="location.href='操作教程.html'">操作教程</em>
+        <em onclick="location.href='意见反馈.html'">意见反馈</em>
+      </div>
+    </div>
+    <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+    <div class="dropdown" id="companyDropdown">
+      <span>如东昂蕾教育培训有... ▼</span>
+      <div class="dropdown-menu">
+        <em>信息管理</em>
+        <em id="logoutBtn">退出</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="container">
+  <h2>通知管理</h2>
+
+  <div class="button-row">
+    <button onclick="location.href='预警处理1.html'">预警处理</button>
+    <button onclick="location.href='退款处理.html'">退款处理</button>
+    <button onclick="location.href='课程变动.html'">课程变动</button>
+    <button onclick="location.href='反馈评价.html'">反馈评价</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>时间</th>
+        <th>标题</th>
+        <th>类型</th>
+        <th>内容摘要</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2025-05-24</td>
+        <td>新课程发布通知</td>
+        <td>通知公告</td>
+        <td>关于暑期课程计划，请查收安排表...</td>
+      </tr>
+      <tr>
+        <td>2025-05-23</td>
+        <td>教育部政策更新</td>
+        <td>政策更新</td>
+        <td>根据新规，课后服务需提前备案...</td>
+      </tr>
+      <tr>
+        <td>2025-05-22</td>
+        <td>课程时间调整</td>
+        <td>课程变动</td>
+        <td>下周一“数学提高班”时间改为下午...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Dropdown toggle
+  document.querySelectorAll('.dropdown').forEach(drop => {
+    drop.addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.querySelectorAll('.dropdown').forEach(d => {
+        if (d !== drop) d.classList.remove('open');
+      });
+      drop.classList.toggle('open');
+    });
+  });
+
+  // Click outside to close
+  window.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+  });
+
+  document.getElementById('customerServiceBtn').addEventListener('click', () => {
+    alert('打开培训机构官方客服窗口');
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    window.location.href = "login.html";
+  });
+</script>
+
+</body>
+</html>

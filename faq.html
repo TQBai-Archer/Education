@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>常见问题</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+    .header {
+      background-color: #2b68c6;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .logo img {
+      height: 40px;
+    }
+    .header .menu ul {
+      list-style: none;
+      margin: 0; padding: 0;
+      display: flex;
+      gap: 30px;
+    }
+    .header .menu ul li {
+      cursor: pointer;
+      color: white;
+    }
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+      color: white;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      display: none;
+      min-width: 140px;
+      z-index: 1000;
+    }
+    .dropdown-menu em {
+      display: block;
+      padding: 10px 15px;
+      border-bottom: 1px solid #eee;
+      font-style: normal;
+      cursor: pointer;
+    }
+    .dropdown-menu em:hover {
+      background: #2b68c6;
+      color: white;
+    }
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      background-size: 24px 24px;
+      color: white;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    main.content {
+      padding: 40px;
+      background-color: white;
+      max-width: 800px;
+      margin: 30px auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    main.content h1 {
+      margin-bottom: 20px;
+      color: #2b68c6;
+    }
+    main.content ul {
+      list-style: none;
+      padding: 0;
+    }
+    main.content li {
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    main.content strong {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <a href="#"><img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="全国校外培训统一监管平台"></a>
+    </div>
+    <div class="menu">
+    <ul>
+      <li onclick="location.href='dashboard.html'">首页</li>
+      <li onclick="location.href='通知管理.html'">通知管理</li>
+      <li onclick="location.href='经营管理.html'">经营管理</li>
+      <li onclick="location.href='执法监控.html'">执法监控</li>
+      <li onclick="location.href='风险预警.html'">风险预警</li>
+    </ul>
+  </div>
+
+    <div class="top-right">
+      <div class="dropdown" id="helpDropdown">
+        <span>帮助 ▼</span>
+        <div class="dropdown-menu">
+          <em onclick="location.href='faq.html'">常见问题</em>
+          <em onclick="location.href='操作教程.html'">操作教程</em>
+          <em onclick="location.href='意见反馈.html'">意见反馈</em>
+        </div>
+      </div>
+      <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+      <div class="dropdown" id="companyDropdown">
+        <span>如东昂蕾教育培训有... ▼</span>
+        <div class="dropdown-menu">
+          <em>信息管理</em>
+          <em id="logoutBtn">退出</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Main FAQ Content -->
+  <main class="content">
+    <h1>常见问题</h1>
+    <ul>
+      <li><strong>如何注册账户？</strong><br />点击登录页中的“注册”按钮，填写信息后提交即可。</li>
+      <li><strong>忘记密码怎么办？</strong><br />在登录页面点击“忘记密码”进行密码重置。</li>
+      <li><strong>如何联系客户服务？</strong><br />点击页面右上角“客服”按钮。</li>
+    </ul>
+  </main>
+
+  <script>
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+  window.location.href = "login.html";
+});
+
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      const isOpen = dropdown.classList.contains('open');
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+      if (!isOpen) dropdown.classList.add('open');
+    }
+
+    document.getElementById('helpDropdown').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDropdown('helpDropdown');
+    });
+
+    document.getElementById('companyDropdown').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDropdown('companyDropdown');
+    });
+
+    window.addEventListener('click', () => {
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      alert('执行退出操作');
+    });
+
+    document.getElementById('customerServiceBtn').addEventListener('click', () => {
+      alert('打开培训机构官方客服窗口');
+    });
+  </script>
+
+</body>
+</html>

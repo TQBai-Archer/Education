@@ -1,0 +1,173 @@
+body.login-body {
+  margin: 0;
+  padding: 0;
+  background: url('../assets/bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 30px;
+  background: rgba(0, 0, 50, 0.7);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.register-link {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.footer-strip {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  color: #333;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+/* Navigation bar */
+.navbar {
+  background-color: #0056b3;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  position: relative;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  color: black;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 10px 16px;
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* ====== New Section Styles for FAQ, Tutorial, Feedback Pages ====== */
+
+.content {
+  padding: 40px;
+  background-color: #fff;
+  max-width: 800px;
+  margin: 40px auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.content h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #003366;
+}
+
+.content ul, .content ol {
+  margin-left: 20px;
+  line-height: 1.8;
+  color: #333;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #003f88;
+}

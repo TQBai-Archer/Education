@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>执法监控 - 校外活动平台</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+    .header {
+      background: #2b68c6;
+      color: white;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .logo img {
+      height: 40px;
+    }
+    .menu ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+    .menu ul li {
+      cursor: pointer;
+    }
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      position: relative;
+    }
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      min-width: 140px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      z-index: 1000;
+
+    }
+    .dropdown-menu em {
+      display: block;
+      padding: 8px 15px;
+      cursor: pointer;
+      font-style: normal;
+      border-bottom: 1px solid #eee;
+    }
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+    .dropdown-menu em:hover {
+      background: #2b68c6;
+      color: white;
+    }
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      background-size: 24px 24px;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .container {
+      padding: 30px;
+    }
+    .button-row {
+      margin-bottom: 20px;
+    }
+    .button-row button {
+      margin-right: 10px;
+      padding: 6px 12px;
+      border: 1px solid #e9f1fa;
+      border-radius: 5px;
+      background: #e9f1fa;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    table th {
+      background-color: #e9f1fa;
+    }
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .pagination button, .pagination select, .pagination input {
+      padding: 4px 8px;
+    }
+    .device-btn {
+  margin-bottom: 20px;
+  background-color: white;
+  color: #2b68c6;
+  border: 2px solid #2b68c6;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.device-btn:hover {
+  background-color: #e6f0ff;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+.modal-content h3 {
+  margin-top: 0;
+}
+.modal-content input, .modal-content button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  font-size: 14px;
+}
+.modal-content button {
+  background-color: #2b68c6;
+  color: white;
+  border: none;
+  margin-top: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.modal-content button:hover {
+  background-color: #1e4fa0;
+}
+.close-btn {
+  text-align: right;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <a href="dashboard.html"><img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="平台 Logo"></a>
+    </div>
+    <div class="menu">
+      <ul>
+        <li onclick="location.href='dashboard.html'">首页</li>
+        <li onclick="location.href='通知管理.html'">通知管理</li>
+        <li onclick="location.href='signup.html'">经营管理</li>
+        <li style="font-weight: bold;">执法监控</li>
+        <li onclick="location.href='风险预警.html'">风险预警</li>
+      </ul>
+    </div>
+    <div class="top-right">
+      <div class="dropdown" id="helpDropdown">
+        <span>帮助 ▼</span>
+        <div class="dropdown-menu">
+          <em onclick="location.href='faq.html'">常见问题</em>
+          <em onclick="location.href='操作教程.html'">操作教程</em>
+          <em onclick="location.href='意见反馈.html'">意见反馈</em>
+        </div>
+      </div>
+      <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+      <div class="dropdown" id="companyDropdown">
+        <span>如东昂蕾教育培训有... ▼</span>
+        <div class="dropdown-menu">
+          <em>信息管理</em>
+          <em id="logoutBtn">退出</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>执法监控</h2>
+
+    <button class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">接入设备</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>设备名称</th>
+          <th>场地名称</th>
+          <th>教室名称</th>
+          <th>设备ID</th>
+          <th>协议类型</th>
+          <th>设备类型</th>
+          <th>通道数</th>
+          <th>设备厂商</th>
+          <th>描述</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>test1</td>
+          <td>如东县Test场地</td>
+          <td>test1</td>
+          <td>1060602</td>
+          <td>GB28181</td>
+          <td>IPC</td>
+          <td>0</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td><a href="#" style="color:blue">查看</a></td>
+        </tr>
+      </tbody>
+
+      <!-- Modal -->
+<div id="deviceModal" class="modal">
+  <div class="modal-content">
+    <div class="close-btn" onclick="closeModal()">✖</div>
+    <h3>接入设备</h3>
+    <input type="text" placeholder="设备名称" />
+    <input type="text" placeholder="设备ID" />
+    <input type="text" placeholder="设备类型" />
+    <button onclick="submitDevice()">提交</button>
+  </div>
+</div>
+
+    </table>
+
+    <div class="pagination">
+      <button>上一页</button>
+      <span>1</span>
+      <button>下一页</button>
+      <span>共1页</span>
+      <select>
+        <option>10条/页</option>
+        <option>20条/页</option>
+      </select>
+      <input type="number" placeholder="页码">
+      <button>跳转</button>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.dropdown').forEach(drop => {
+      drop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.dropdown').forEach(d => {
+          if (d !== drop) d.classList.remove('open');
+        });
+        drop.classList.toggle('open');
+      });
+    });
+
+    window.addEventListener('click', () => {
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+    });
+
+    document.getElementById('customerServiceBtn').addEventListener('click', () => {
+      alert('打开培训机构官方客服窗口');
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      window.location.href = "login.html";
+    });
+    const modal = document.getElementById('deviceModal');
+const deviceBtn = document.querySelector('.device-btn');
+
+deviceBtn.addEventListener('click', () => {
+  modal.style.display = 'flex';
+});
+
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+function submitDevice() {
+  alert("设备已提交！");
+  closeModal();
+}
+
+window.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+
+  </script>
+</body>
+</html>

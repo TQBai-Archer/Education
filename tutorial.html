@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>操作教程</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!DOCTYPE html>
+  <html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>模拟管理后台首页</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+    /* Header styles */
+    .header {
+      position: relative;
+      background: #2b68c6;
+      color: white;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .logo img {
+      height: 40px;
+    }
+    .header .menu {
+      flex-grow: 1;
+      margin-left: 40px;
+    }
+    .header .menu ul {
+      list-style: none;
+      margin: 0; padding: 0;
+      display: flex;
+      gap: 30px;
+    }
+    .header .menu ul li {
+      cursor: pointer;
+    }
+    .header .top-right {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      position: relative;
+    }
+    /* Dropdown base */
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+    .dropdown > span {
+      user-select: none;
+    }
+    .dropdown > .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      min-width: 140px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+    }
+    .dropdown > .dropdown-menu em {
+      display: block;
+      padding: 8px 15px;
+      border-bottom: 1px solid #eee;
+      font-style: normal;
+      cursor: pointer;
+    }
+    .dropdown > .dropdown-menu em:last-child {
+      border-bottom: none;
+    }
+    .dropdown > .dropdown-menu em:hover {
+      background: #2b68c6;
+      color: white;
+    }
+    /* Show dropdown */
+    .dropdown.open > .dropdown-menu {
+      display: block;
+    }
+    /* Customer service button */
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      background-size: 24px 24px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    /* Main iframe container */
+    #mainContent {
+      width: 100%;
+      height: calc(100vh - 60px);
+      border: none;
+    }
+    /* Floating tools (export & customer) */
+    .tool-floating {
+      position: fixed;
+      right: 20px;
+      width: 80px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1100;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      padding: 8px 0;
+    }
+    .tool-floating img {
+      width: 48px;
+      height: 48px;
+    }
+    .tool-floating p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: #333;
+    }
+    /* Positions for floating tools */
+    #exportToolBtn { bottom: 150px; }
+    #customerToolBtn { bottom: 220px; }
+
+    /* Popup boxes */
+    .popup-box {
+      position: fixed;
+      right: 110px;
+      width: 270px;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+      padding: 15px;
+      display: none;
+      z-index: 1200;
+      border-radius: 6px;
+    }
+    #exportToolBox { bottom: 200px; }
+    #customerToolBox { bottom: 270px; }
+
+    .popup-box .close-btn {
+      float: right;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .popup-box p {
+      font-size: 16px;
+      color: #000;
+      margin: 0 0 10px;
+    }
+    .popup-box a {
+      color: #7d92b6;
+      font-size: 12px;
+      text-decoration: none;
+      float: right;
+    }
+    .tool-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .tool-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+      cursor: default;
+    }
+    .tool-list li:last-child {
+      border-bottom: none;
+    }
+  </style>
+  </head>
+  <body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <a href="/bmp-web/"><img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="全国校外培训统一监管平台"></a>
+    </div>
+    <div class="menu">
+      <ul>
+        <li>首页</li>
+        <li>课程管理</li>
+        <li>报名管理</li>
+        <li>数据统计</li>
+        <li>系统设置</li>
+      </ul>
+    </div>
+    <div class="top-right">
+      <div class="dropdown" id="helpDropdown">
+        <span>帮助 ▼</span>
+        <div class="dropdown-menu">
+          <em>常见问题</em>
+          <em>操作教程</em>
+          <em>意见反馈</em>
+        </div>
+      </div>
+      <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+      <div class="dropdown" id="companyDropdown">
+        <span>如东昂蕾教育培训有... ▼</span>
+        <div class="dropdown-menu">
+          <em>信息管理</em>
+          <em id="logoutBtn">退出</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content iframe -->
+  <iframe id="mainContent" name="mainContent" src="" frameborder="0" scrolling="auto"></iframe>
+
+  <!-- Floating tools -->
+  <div class="tool-floating" id="customerToolBtn" title="客服坐席入口">
+    <img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png" alt="客服坐席入口" />
+    <p>客服入口</p>
+  </div>
+  <div class="tool-floating" id="exportToolBtn" title="导出工具">
+    <img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/emit_tool.png" alt="导出工具" />
+    <p>导出工具</p>
+  </div>
+
+  <!-- Popups -->
+  <div class="popup-box" id="customerToolBox">
+    <img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/white_close.png" alt="关闭" class="close-btn" id="closeCustomerBox" />
+    <p>客服坐席入口</p>
+    <ul class="tool-list">
+      <li>联系客服1</li>
+      <li>联系客服2</li>
+      <li>联系客服3</li>
+    </ul>
+  </div>
+  <div class="popup-box" id="exportToolBox">
+    <img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/white_close.png" alt="关闭" class="close-btn" id="closeExportBox" />
+    <p>
+      <img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/ico_xx.png" alt="" style="vertical-align: -1px" />
+      <span>常用导出文件</span>
+      <a href="javascript:void(0);" onclick="alert('跳转到更多导出文件')">查看更多</a>
+    </p>
+    <ul class="tool-list" id="helpToolList">
+      <li>导出文件 1</li>
+      <li>导出文件 2</li>
+      <li>导出文件 3</li>
+    </ul>
+  </div>
+
+  <script>
+    // Dropdown toggles
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      const isOpen = dropdown.classList.contains('open');
+      // Close all dropdowns first
+      document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+      if(!isOpen){
+        dropdown.classList.add('open');
+      }
+    }
+
+    // Click events for header dropdowns
+    document.getElementById('helpDropdown').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDropdown('helpDropdown');
+      closeAllPopups();
+    });
+    document.getElementById('companyDropdown').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDropdown('companyDropdown');
+      closeAllPopups();
+    });
+
+    // Logout button click
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      alert('执行退出操作');
+    });
+
+    // Customer service button (top right)
+    document.getElementById('customerServiceBtn').addEventListener('click', () => {
+      alert('打开培训机构官方客服窗口');
+    });
+
+    // Floating tools toggle
+    function toggleBox(btnId, boxId) {
+      const box = document.getElementById(boxId);
+      const btn = document.getElementById(btnId);
+      const isVisible = box.style.display === 'block';
+      // Hide all popups first
+      closeAllPopups();
+      if(!isVisible){
+        box.style.display = 'block';
+      }
+    }
+
+    document.getElementById('customerToolBtn').addEventListener('click', () => {
+      toggleBox('customerToolBtn', 'customerToolBox');
+      // Close header dropdowns
+      document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+    });
+    document.getElementById('exportToolBtn').addEventListener('click', () => {
+      toggleBox('exportToolBtn', 'exportToolBox');
+      document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+    });
+
+    // Close buttons on popups
+    document.getElementById('closeCustomerBox').addEventListener('click', () => {
+      document.getElementById('customerToolBox').style.display = 'none';
+    });
+    document.getElementById('closeExportBox').addEventListener('click', () => {
+      document.getElementById('exportToolBox').style.display = 'none';
+    });
+
+    // Close all popups function
+    function closeAllPopups() {
+      document.querySelectorAll('.popup-box').forEach(b => b.style.display = 'none');
+    }
+
+    // Close dropdowns and popups when clicking outside
+    window.addEventListener('click', () => {
+      document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+      closeAllPopups();
+    });
+  </script>
+
+  </body>
+  </html>
+
+  <header class="navbar">
+    <div class="logo">Out-of-School Activities</div>
+  </header>
+  <main class="content">
+    <h1>操作教程</h1>
+    <p>以下是使用平台的简要说明：</p>
+    <ol>
+      <li>登录系统后可查看活动信息。</li>
+      <li>点击“报名”按钮可选择参加的课程。</li>
+      <li>在“信息管理”中可更新个人资料。</li>
+    </ol>
+  </main>
+</body>
+</html>

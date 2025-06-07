@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>反馈评价 - 校外活动平台</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+
+    .header {
+      background: #2b68c6;
+      color: white;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header .logo img {
+      height: 40px;
+    }
+
+    .header .menu {
+      flex-grow: 1;
+      margin-left: 40px;
+    }
+
+    .header .menu ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .header .menu ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .top-right {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      display: none;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      z-index: 1000;
+      min-width: 140px;
+    }
+
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu em, .dropdown-menu a {
+      display: block;
+      padding: 8px 15px;
+      font-style: normal;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+
+    .dropdown-menu em:hover, .dropdown-menu a:hover {
+      background-color: #2b68c6;
+      color: white;
+    }
+
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      background-size: 24px 24px;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2b68c6;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .button-group button {
+      flex: 1;
+      margin: 0 5px;
+      padding: 14px 20px;
+      font-size: 16px;
+      background-color: #2b68c6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .button-group button:hover {
+      background-color: #1d4da0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #eaf1fc;
+    }
+
+    td button {
+      padding: 6px 12px;
+      background-color: #78b4eb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    td button:hover {
+      background-color: #5a9bd8;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <a href="dashboard.html">
+      <img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="平台 Logo">
+    </a>
+  </div>
+  <div class="menu">
+    <ul>
+      <li><a href="dashboard.html">首页</a></li>
+      <li><a href="通知管理.html">通知管理</a></li>
+      <li><a href="经营管理.html">经营管理</a></li>
+      <li><a href="执法监控.html">执法监控</a></li>
+      <li><a href="风险预警.html">风险预警</a></li>
+    </ul>
+  </div>
+  <div class="top-right">
+    <div class="dropdown" id="helpDropdown">
+      <span>帮助 ▼</span>
+      <div class="dropdown-menu">
+        <a href="faq.html">常见问题</a>
+        <a href="操作教程.html">操作教程</a>
+        <a href="意见反馈.html">意见反馈</a>
+      </div>
+    </div>
+    <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+    <div class="dropdown" id="companyDropdown">
+      <span>如东昂蕾教育培训有... ▼</span>
+      <div class="dropdown-menu">
+        <em>信息管理</em>
+        <em id="logoutBtn">退出</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+  <h2>反馈评价列表</h2>
+
+  <div class="button-group">
+    <button onclick="location.href='预警处理1.html'">预警处理</button>
+    <button onclick="location.href='退款处理.html'">退款处理</button>
+    <button onclick="location.href='课程变动.html'">课程变动</button>
+    <button onclick="location.href='反馈评价.html'">反馈评价</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>反馈人</th>
+        <th>反馈内容</th>
+        <th>处理状态</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>张女士</td>
+        <td>老师讲解很详细，孩子很喜欢。</td>
+        <td>已查看</td>
+      </tr>
+      <tr>
+        <td>李先生</td>
+        <td>建议增加课程互动环节。</td>
+        <td>待处理</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    const isOpen = dropdown.classList.contains('open');
+    document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+    if (!isOpen) dropdown.classList.add('open');
+  }
+
+  document.getElementById('helpDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleDropdown('helpDropdown');
+  });
+
+  document.getElementById('companyDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleDropdown('companyDropdown');
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    window.location.href = "login.html";
+  });
+
+  document.getElementById('customerServiceBtn').addEventListener('click', () => {
+    alert('打开培训机构官方客服窗口');
+  });
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+  });
+</script>
+
+</body>
+</html>

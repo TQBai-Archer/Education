@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>操作教程 - 校外活动平台</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: #f4f6f9;
+    }
+    .header {
+      background: #2b68c6;
+      color: white;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .logo img {
+      height: 40px;
+    }
+    .header .menu {
+      flex-grow: 1;
+      margin-left: 40px;
+    }
+    .header .menu ul {
+      list-style: none;
+      margin: 0; padding: 0;
+      display: flex;
+      gap: 30px;
+    }
+    .header .menu ul li {
+      cursor: pointer;
+    }
+    .header .top-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+    .dropdown > span {
+      user-select: none;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      min-width: 140px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+    }
+    .dropdown-menu em {
+      display: block;
+      padding: 8px 15px;
+      border-bottom: 1px solid #eee;
+      font-style: normal;
+      cursor: pointer;
+    }
+    .dropdown-menu em:hover {
+      background: #2b68c6;
+      color: white;
+    }
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+    .customer-btn {
+      background: url('https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/kf_tool.png') no-repeat 10px center;
+      padding-left: 40px;
+      height: 36px;
+      line-height: 36px;
+      background-size: 24px 24px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .lang-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .lang-toggle img {
+      height: 24px;
+    }
+    .container {
+      max-width: 1000px;
+      background: white;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      border-left: 5px solid #2b68c6;
+      padding-left: 10px;
+    }
+    .tutorial-step {
+      margin-bottom: 20px;
+    }
+    .tutorial-step h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #2b68c6;
+    }
+    .tutorial-step p {
+      margin-left: 15px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <a href="dashboard.html"><img src="https://static.xwpx.eduyun.cn/service_system_edu/system/train_supervision_platform/images/logo1010.png" alt="全国校外培训统一监管平台"></a>
+  </div>
+  <div class="menu">
+  <ul>
+    <li onclick="location.href='dashboard.html'">首页</li>
+    <li onclick="location.href='通知管理.html'">通知管理</li>
+    <li onclick="location.href='经营管理.html'">经营管理</li>
+    <li onclick="location.href='执法监控.html'">执法监控</li>
+    <li onclick="location.href='风险预警.html'">风险预警</li>
+  </ul>
+</div>
+
+  <div class="top-right">
+    <button class="lang-toggle" onclick="toggleLanguage()" title="切换语言">
+      <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="EN">
+    </button>
+    <div class="dropdown" id="helpDropdown">
+      <span>帮助 ▼</span>
+      <div class="dropdown-menu">
+        <em onclick="location.href='faq.html'">常见问题</em>
+        <em onclick="location.href='guide.html'">操作教程</em>
+        <em onclick="location.href='意见反馈.html'">意见反馈</em>
+      </div>
+    </div>
+    <button class="customer-btn" id="customerServiceBtn">培训机构官方客服</button>
+    <div class="dropdown" id="companyDropdown">
+      <span>如东昂蕾教育培训有... ▼</span>
+      <div class="dropdown-menu">
+        <em>信息管理</em>
+        <em onclick="location.href='login.html'">退出</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="container">
+  <h2 id="title">操作教程</h2>
+
+  <div class="tutorial-step">
+    <h3 data-zh="1. 登录系统" data-en="1. Log into the System">1. 登录系统</h3>
+    <p data-zh="访问平台登录页，输入用户名和密码，点击“登录”按钮进入系统。" data-en="Go to the login page, enter your username and password, then click 'Login' to access the system.">
+      访问平台登录页，输入用户名和密码，点击“登录”按钮进入系统。
+    </p>
+  </div>
+
+  <div class="tutorial-step">
+    <h3 data-zh="2. 创建课程" data-en="2. Create a Course">2. 创建课程</h3>
+    <p data-zh="点击“课程管理”→“快速建课”，填写课程信息，点击“提交课程”完成操作。" data-en="Click 'Course Management' → 'Quick Course Creation', fill in the course info, and click 'Submit Course'.">
+      点击“课程管理”→“快速建课”，填写课程信息，点击“提交课程”完成操作。
+    </p>
+  </div>
+
+  <div class="tutorial-step">
+    <h3 data-zh="3. 管理报名信息" data-en="3. Manage Enrollments">3. 管理报名信息</h3>
+    <p data-zh="在“报名管理”页面可查看、筛选和导出所有学员报名信息。" data-en="In 'Signup Management', you can view, filter, and export all student registration data.">
+      在“报名管理”页面可查看、筛选和导出所有学员报名信息。
+    </p>
+  </div>
+
+  <div class="tutorial-step">
+    <h3 data-zh="4. 查看数据统计" data-en="4. View Data Statistics">4. 查看数据统计</h3>
+    <p data-zh="在“数据统计”页面查看课程数量、报名人数等数据图表。" data-en="Check charts for course count, registration numbers, and more in 'Statistics'.">
+      在“数据统计”页面查看课程数量、报名人数等数据图表。
+    </p>
+  </div>
+
+  <div class="tutorial-step">
+    <h3 data-zh="5. 修改系统设置" data-en="5. Modify System Settings">5. 修改系统设置</h3>
+    <p data-zh="进入“系统设置”可修改机构信息并管理权限。" data-en="Go to 'System Settings' to update organization info and manage access rights.">
+      进入“系统设置”可修改机构信息并管理权限。
+    </p>
+  </div>
+</div>
+
+<script>
+  function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    const isOpen = el.classList.contains("open");
+    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+    if (!isOpen) el.classList.add("open");
+  }
+
+  document.getElementById('helpDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleDropdown('helpDropdown');
+  });
+  document.getElementById('companyDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleDropdown('companyDropdown');
+  });
+  document.getElementById('customerServiceBtn').addEventListener('click', () => {
+    alert('打开培训机构官方客服窗口');
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+  });
+
+  let currentLang = 'zh';
+  function toggleLanguage() {
+    currentLang = currentLang === 'zh' ? 'en' : 'zh';
+    document.getElementById('title').innerText = currentLang === 'zh' ? '操作教程' : 'Operation Guide';
+    document.querySelectorAll('[data-zh]').forEach(el => {
+      el.innerText = el.getAttribute(`data-${currentLang}`);
+    });
+  }
+</script>
+
+</body>
+</html>
