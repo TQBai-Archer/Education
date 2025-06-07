@@ -2,28 +2,146 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Out-of-School Activities - Login</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>登录 - 校外活动平台</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html {
+      height: 100%;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-container {
+      background-color: rgba(255,255,255,0.95);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #2a6ec8;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      margin: 10px 0 20px;
+    }
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .remember-forgot a, .register-link {
+      color: #2a6ec8;
+      text-decoration: none;
+    }
+    .remember-forgot a:hover, .register-link:hover {
+      text-decoration: underline;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2a6ec8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-container button:hover {
+      background-color: #1f5bb5;
+    }
+    .register-link {
+      display: block;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: white;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
 </head>
-<body class="login-body">
+<body>
+
   <div class="login-container">
-    <h2>登录</h2>
-    <form action="dashboard.html" method="get" class="login-form">
-      <input type="text" placeholder="用户名" required />
-      <input type="password" placeholder="密码" required />
-      <div class="form-options">
-        <label><input type="checkbox" /> 记住我</label>
-        <a href="#">忘记密码？</a>
-      </div>
-      <button type="submit">登录</button>
-      <div class="register-link">
-        还没有账户？ <a href="#">注册</a>
-      </div>
-    </form>
+    <h2>校外活动平台登录</h2>
+    <input type="text" id="username" placeholder="用户名" />
+    <input type="password" id="password" placeholder="密码" />
+
+    <div class="remember-forgot">
+      <label class="remember-me">
+        记得我
+        <input type="checkbox" id="rememberMe" />
+      </label>
+      <a href="#">忘记密码？</a>
+    </div>
+
+    <button onclick="handleLogin()">登录</button>
+    <a class="register-link" href="register.html">还没有账号？点击注册</a>
   </div>
-  <footer>
-    <div class="footer-strip">© 2025 校外活动平台</div>
-  </footer>
+
+  <footer>© 2025 校外活动平台. 版权所有.</footer>
+
+  <script>
+    function handleLogin() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const remember = document.getElementById("rememberMe").checked;
+
+      const users = JSON.parse(localStorage.getItem("users") || "{}");
+
+      if (users[username] && users[username] === password) {
+        alert("登录成功！");
+        if (remember) {
+          localStorage.setItem("rememberedUser", username);
+        } else {
+          localStorage.removeItem("rememberedUser");
+        }
+        // Redirect to dashboard
+        window.location.href = "dashboard.html";
+      } else {
+        alert("用户名或密码错误。");
+      }
+    }
+
+    window.onload = () => {
+      const remembered = localStorage.getItem("rememberedUser");
+      if (remembered) {
+        document.getElementById("username").value = remembered;
+        document.getElementById("rememberMe").checked = true;
+      }
+
+      // Dummy test account
+      const defaultUsers = { "admin": "123456", "user": "password" };
+      if (!localStorage.getItem("users")) {
+        localStorage.setItem("users", JSON.stringify(defaultUsers));
+      }
+    };
+  </script>
+
 </body>
 </html>
