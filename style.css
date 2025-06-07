@@ -7,6 +7,18 @@ body.login-body {
   color: white;
 }
 
+{ box-sizing: border-box; margin: 0; padding: 0; }
+    body, html {
+      height: 100%;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
 .login-container {
   max-width: 400px;
   margin: 100px auto;
